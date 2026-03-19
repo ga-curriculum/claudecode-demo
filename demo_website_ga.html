@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code for Course Development — General Assembly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Nunito+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:   #222222;
+  --offblk:  #222222;
+  --offwht:  #F1F1F1;
+  --white:   #FFFFFF;
+  --red:     #E41F26;
+  --blue:    #3442A3;
+  --yellow:  #F3AB02;
+  --green:   #036C32;
+  --muted:   #666666;
+  --border:  #DDDDDD;
+  --display: 'Barlow Condensed', sans-serif;
+  --body:    'Nunito Sans', sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--offblk);color:var(--offwht);font-family:var(--body);font-size:15px;line-height:1.6;overflow-x:hidden}
+
+/* ── HALFTONE TEXTURE OVERLAY ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:4px 4px;pointer-events:none;z-index:0
+}
+
+/* ── NAV DOTS ── */
+.nav-dots{position:fixed;right:1.5rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.7rem;z-index:100}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;transition:all .3s}
+.nav-dot.active{background:var(--red);transform:scale(1.4)}
+.nav-dot:hover{background:rgba(255,255,255,.6)}
+
+/* ── DIVIDER LINE (GA brand element) ── */
+.ga-rule{display:block;width:60px;height:4px;background:var(--red);margin-bottom:1rem}
+.ga-rule.white{background:var(--white)}
+.ga-rule.sm{width:40px;height:3px}
+
+/* ── SECTIONS ── */
+section{position:relative;z-index:1}
+.section-inner{max-width:1100px;margin:0 auto;padding:6rem 2rem}
+
+/* ── SECTION LABEL ── */
+.eyebrow{font-family:var(--display);font-size:.75rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:.75rem}
+
+h2{font-family:var(--display);font-size:clamp(2rem,5vw,3.5rem);font-weight:800;line-height:1.05;letter-spacing:-.01em;margin-bottom:1.5rem;text-transform:uppercase}
+h2 span.red{color:var(--red)}
+h2 span.muted{color:rgba(255,255,255,.4)}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:6rem 2rem 4rem;max-width:1100px;margin:0 auto}
+.hero-kicker{font-family:var(--display);font-size:.8rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:1.5rem}
+.hero h1{font-family:var(--display);font-size:clamp(3.5rem,9vw,7rem);font-weight:800;line-height:.95;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:2rem}
+.hero h1 .accent{color:var(--red)}
+.hero h1 .dim{color:rgba(255,255,255,.3)}
+.hero-body{font-family:var(--body);font-size:1.05rem;color:rgba(255,255,255,.65);max-width:520px;line-height:1.7;margin-bottom:2rem}
+.hero-body strong{color:var(--white)}
+
+.technical-pill{display:inline-flex;align-items:center;gap:.6rem;background:transparent;border:1px solid rgba(227,179,65,.35);border-radius:0;padding:.5rem 1rem;font-family:var(--display);font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--yellow);margin-bottom:2.5rem}
+.technical-pill::before{content:'⚙';font-size:.9rem}
+
+.hero-meta{display:flex;align-items:center;gap:1.5rem;font-family:var(--display);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.hero-meta .author{color:var(--red);font-weight:700}
+.hero-sep{width:1px;height:14px;background:rgba(255,255,255,.2)}
+
+/* ── DIVIDERS ── */
+.section-divider{height:1px;background:rgba(255,255,255,.1)}
+
+/* ══════════════════
+   SECTION 1
+══════════════════ */
+#s1{background:var(--offblk)}
+.compare-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.1);margin-top:3rem}
+.cmp{background:var(--offblk);padding:2.5rem}
+.cmp.right{background:#1A1A1A}
+.cmp-name{font-family:var(--display);font-size:2rem;font-weight:800;letter-spacing:-.01em;text-transform:uppercase;margin-bottom:.3rem}
+.cmp-name.red{color:var(--red)}
+.cmp-name.blue{color:#6B7FD4}
+.cmp-tag{font-family:var(--display);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:2rem}
+
+.trait{display:flex;gap:.75rem;margin-bottom:1.1rem;align-items:flex-start}
+.trait-dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:.45rem}
+.cmp.right .trait-dot{background:#6B7FD4}
+.trait-text{font-size:.88rem;line-height:1.5;color:rgba(255,255,255,.75)}
+.trait-text strong{color:var(--white);display:block;font-size:.83rem;font-weight:700}
+
+.callout{margin-top:2rem;border-left:3px solid rgba(255,255,255,.1);padding:.9rem 1.1rem;font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.6;font-style:italic}
+.callout strong{color:rgba(255,255,255,.8);font-style:normal}
+
+.verdict-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1px;background:rgba(255,255,255,.1);margin-top:1px}
+.verd{background:var(--offblk);padding:1.25rem 1.5rem}
+.verd .vl{font-family:var(--display);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.35rem}
+.verd .vv{font-family:var(--display);font-size:1rem;font-weight:800;text-transform:uppercase}
+.verd .vv.red{color:var(--red)}
+.verd .vv.blue{color:#6B7FD4}
+.verd .vv.yellow{color:var(--yellow)}
+.verd .vv.green{color:#2EAA5A}
+
+/* ══════════════════
+   SECTION 2
+══════════════════ */
+#s2{background:#1A1A1A}
+.steps{display:flex;flex-direction:column;gap:0;margin-top:3rem;border:1px solid rgba(255,255,255,.08)}
+.step{display:grid;grid-template-columns:80px 1fr;gap:0;border-bottom:1px solid rgba(255,255,255,.08)}
+.step:last-child{border-bottom:none}
+.step-num{background:var(--red);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1.8rem;font-weight:800;color:var(--white);flex-shrink:0}
+.step-body{padding:1.75rem 2rem}
+.step-body h3{font-family:var(--display);font-size:1.2rem;font-weight:800;text-transform:uppercase;letter-spacing:.02em;margin-bottom:.5rem}
+.step-body p{font-size:.88rem;color:rgba(255,255,255,.6);line-height:1.6;max-width:580px}
+.step-pills{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
+.pill{font-family:var(--display);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .65rem;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5)}
+
+.code-block{margin-top:2.5rem;border:1px solid rgba(255,255,255,.1)}
+.code-header{background:#111;padding:.75rem 1.25rem;display:flex;align-items:center;gap:.75rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.code-dots{display:flex;gap:.4rem}
+.cd{width:10px;height:10px;border-radius:50%}
+.cd.r{background:#FF5F57}.cd.y{background:#FEBC2E}.cd.g{background:#28C840}
+.code-fname{font-family:'Courier New',monospace;font-size:.72rem;color:rgba(255,255,255,.35);margin-left:.5rem}
+.code-body{padding:1.25rem 1.5rem;font-family:'Courier New',monospace;font-size:.75rem;line-height:1.85;color:rgba(255,255,255,.55);background:#0D0D0D;overflow-x:auto}
+.ck{color:#6B7FD4}.cs{color:#2EAA5A}.cv{color:#F3AB02}.ch{color:var(--red);font-weight:700}.cm{color:rgba(255,255,255,.25)}
+
+/* ══════════════════
+   SECTION 3
+══════════════════ */
+#s3{background:var(--offblk)}
+.flow-diagram{display:grid;grid-template-columns:1fr 36px 1fr 36px 1fr;gap:0;align-items:center;margin-top:3rem}
+.flow-node{border:1px solid rgba(255,255,255,.12);padding:2rem 1.5rem;text-align:center;position:relative}
+.flow-node.hl{border-color:var(--red);background:rgba(228,31,38,.04)}
+.flow-node .fn-label{font-family:var(--display);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.4rem}
+.flow-node .fn-title{font-family:var(--display);font-size:1.1rem;font-weight:800;text-transform:uppercase;margin-bottom:.4rem}
+.flow-node.hl .fn-title{color:var(--yellow)}
+.flow-node .fn-desc{font-size:.75rem;color:rgba(255,255,255,.45);line-height:1.5}
+.flow-node .fn-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--red);color:var(--white);font-family:var(--display);font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;white-space:nowrap}
+.flow-arr{display:flex;flex-direction:column;align-items:center;gap:.2rem;padding:0 .25rem}
+.flow-arr .al{width:36px;height:1px;background:rgba(255,255,255,.2)}
+.flow-arr .ah{color:rgba(255,255,255,.3);font-size:.7rem}
+
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.1);margin-top:1px}
+.stat-card{background:var(--offblk);padding:2rem 1.5rem}
+.stat-card .sn{font-family:var(--display);font-size:3rem;font-weight:800;line-height:1;margin-bottom:.3rem}
+.stat-card .sn.red{color:var(--red)}
+.stat-card .sn.yellow{color:var(--yellow)}
+.stat-card .sn.blue{color:#6B7FD4}
+.stat-card .sn.green{color:#2EAA5A}
+.stat-card .sl{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.5}
+
+/* ══════════════════
+   SECTION 4 — DEMO
+══════════════════ */
+#s4{background:#1A1A1A}
+.timeline{display:flex;flex-direction:column;gap:0;margin-top:3rem;border-left:3px solid var(--red);margin-left:1.5rem}
+.tl-item{display:grid;grid-template-columns:0 1fr;padding:0 0 2.5rem 2.5rem;position:relative}
+.tl-dot{position:absolute;left:-1.7rem;top:.2rem;width:24px;height:24px;background:var(--offblk);border:3px solid var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:.65rem;font-weight:700;color:var(--red)}
+.tl-dot.done{background:var(--red);color:var(--white)}
+.tl-body{}
+.tl-body .tl-title{font-family:var(--display);font-size:1.1rem;font-weight:800;text-transform:uppercase;letter-spacing:.02em;margin-bottom:.4rem}
+.tl-body .tl-desc{font-size:.88rem;color:rgba(255,255,255,.55);line-height:1.6;max-width:600px}
+.tl-tag{display:inline-block;margin-top:.6rem;font-family:var(--display);font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.2rem .65rem;border:1px solid}
+.tl-tag.red{color:var(--red);border-color:rgba(228,31,38,.4)}
+.tl-tag.yellow{color:var(--yellow);border-color:rgba(243,171,2,.4)}
+.tl-tag.blue{color:#6B7FD4;border-color:rgba(107,127,212,.4)}
+
+/* ══════════════════
+   FOOTER
+══════════════════ */
+footer{border-top:3px solid var(--red);padding:3rem 2rem;background:var(--offblk)}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.footer-logo{font-family:var(--display);font-size:1.6rem;font-weight:800;text-transform:uppercase;letter-spacing:-.01em}
+.footer-logo span{color:var(--red)}
+.footer-sub{font-size:.78rem;color:rgba(255,255,255,.35);text-align:right}
+.footer-sub strong{color:rgba(255,255,255,.65)}
+.dl-bar{background:#161616;border-top:1px solid rgba(255,255,255,.08);padding:2rem}
+.dl-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:2rem}
+.dl-text .dl-label{font-family:var(--display);font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:.3rem}
+.dl-text .dl-title{font-family:var(--display);font-size:1.1rem;font-weight:800;text-transform:uppercase;color:var(--offwht)}
+.dl-btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--red);color:var(--white);font-family:var(--display);font-size:.8rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:.75rem 1.75rem;text-decoration:none;transition:background .2s;white-space:nowrap;flex-shrink:0}
+.dl-btn:hover{background:#C41820}
+.dl-btn svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .compare-wrap,.verdict-row,.flow-diagram,.stats-grid{grid-template-columns:1fr}
+  .flow-arr{transform:rotate(90deg)}
+  .footer-inner{flex-direction:column;gap:1rem;text-align:center}
+  .footer-sub{text-align:center}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav-dots" aria-label="Sections">
+  <div class="nav-dot active" onclick="scrollTo(0)" title="Intro"></div>
+  <div class="nav-dot" onclick="scrollTo(1)" title="Claude vs Claude Code"></div>
+  <div class="nav-dot" onclick="scrollTo(2)" title="The CLAUDE.md"></div>
+  <div class="nav-dot" onclick="scrollTo(3)" title="Workflow"></div>
+  <div class="nav-dot" onclick="scrollTo(4)" title="Demo"></div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<div style="position:relative;z-index:1" id="sec-0">
+<div class="hero">
+  <span class="ga-rule"></span>
+  <div class="hero-kicker">Internal Demo · General Assembly</div>
+  <h1>
+    Building a<br>
+    Full Course<br>
+    <span class="accent">with Claude</span><br>
+    <span class="dim">Code</span>
+  </h1>
+  <p class="hero-body">
+    How I used <strong>Claude + Claude Code</strong> to design, build, audit, and deploy a complete 16-module technical course — with labs, SQL, seed data, solutions, and AI integration — directly to GitHub.
+  </p>
+  <div class="technical-pill">Best suited for technical courses — code, labs, and file-based content</div>
+  <div class="hero-meta">
+    <span class="author">LED Rita Martins</span>
+    <span class="hero-sep"></span>
+    <span>30-min Demo</span>
+    <span class="hero-sep"></span>
+    <span>GA Technical Course · 16 Modules · 32 Hours</span>
+  </div>
+</div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ═══════ SECTION 1 ═══════ -->
+<section id="sec-1">
+<div class="section-inner">
+  <span class="ga-rule"></span>
+  <div class="eyebrow">01 / The Difference</div>
+  <h2>Claude <span class="red">vs</span><br>Claude Code</h2>
+
+  <div class="compare-wrap">
+    <div class="cmp left">
+      <div class="cmp-name red">Claude</div>
+      <div class="cmp-tag">claude.ai — your thinking partner</div>
+      <div class="trait"><span class="trait-dot"></span><div class="trait-text"><strong>Thinks and designs with you</strong>Brainstorm, draft, refine, structure — any conversation, any document</div></div>
+      <div class="trait"><span class="trait-dot"></span><div class="trait-text"><strong>Reads your course documents</strong>Upload a competency map, syllabus, pacing guide — Claude builds from them</div></div>
+      <div class="trait"><span class="trait-dot"></span><div class="trait-text"><strong>Produces the blueprint</strong>Creates the CLAUDE.md that tells Claude Code how to build the course</div></div>
+      <div class="trait"><span class="trait-dot"></span><div class="trait-text"><strong>Iterates with you</strong>Refine in conversation until the structure is exactly right</div></div>
+      <div class="callout"><strong>The architect</strong> — designs the building, draws the blueprint, specifies every detail before construction starts.</div>
+    </div>
+    <div class="cmp right">
+      <div class="cmp-name blue">Claude Code</div>
+      <div class="cmp-tag">terminal agent — your builder</div>
+      <div class="trait"><span class="trait-dot"></span><div class="trait-text"><strong>Runs in your terminal</strong>Reads your local files, writes code, creates folders, pushes to GitHub</div></div>
+      <div class="trait"><span class="trait-dot"></span><div class="trait-text"><strong>Creates real files</strong>Not a preview — actual repositories, READMEs, SQL files, JSON seed data</div></div>
+      <div class="trait"><span class="trait-dot"></span><div class="trait-text"><strong>Talks to GitHub directly</strong>With a token, it creates repos, pushes commits, deploys — no manual steps</div></div>
+      <div class="trait"><span class="trait-dot"></span><div class="trait-text"><strong>Follows the blueprint</strong>Reads CLAUDE.md and executes it faithfully across all 16 modules</div></div>
+      <div class="callout"><strong>The construction crew</strong> — builds from the blueprint, follows every spec, at scale, without fatigue.</div>
+    </div>
+  </div>
+
+  <div class="verdict-row">
+    <div class="verd"><div class="vl">Claude is for</div><div class="vv red">Thinking &amp; Designing</div></div>
+    <div class="verd"><div class="vl">Claude Code is for</div><div class="vv blue">Building &amp; Deploying</div></div>
+    <div class="verd"><div class="vl">The connection</div><div class="vv yellow">CLAUDE.md</div></div>
+    <div class="verd"><div class="vl">The result</div><div class="vv green">Full course in GitHub</div></div>
+  </div>
+</div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════ SECTION 2 ═══════ -->
+<section id="sec-2">
+<div class="section-inner">
+  <span class="ga-rule"></span>
+  <div class="eyebrow">02 / The Blueprint</div>
+  <h2>The CLAUDE.md —<br><span class="red">The Most</span><br>Important File</h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-body">
+        <h3>Give Claude your reference module</h3>
+        <p>Upload Module 1 exactly as you want the course to look — the README structure, the lab folders, the design, the colors, the visual elements (Mermaid diagrams, PNG assets, badges).</p>
+        <div class="step-pills">
+          <span class="pill">README.md example</span>
+          <span class="pill">Lab folder structure</span>
+          <span class="pill">Design system</span>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-body">
+        <h3>Upload all course documents</h3>
+        <p>Give Claude the Competency Map, Pacing Guide, and Syllabus. Claude reads them and extracts learning objectives, lab descriptions, tools, and module structure.</p>
+        <div class="step-pills">
+          <span class="pill">Competency Map (.xlsx)</span>
+          <span class="pill">Pacing Guide (.xlsx)</span>
+          <span class="pill">Syllabus (.docx)</span>
+          <span class="pill">Course Catalog (.docx)</span>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-body">
+        <h3>Ask Claude to build the CLAUDE.md</h3>
+        <p>Claude structures everything into a single instruction file — language rules, visual design standards, repository structure, templates for every file type, module-specific AI integration guidance.</p>
+        <div class="step-pills">
+          <span class="pill">Language rules</span>
+          <span class="pill">Color palette + badges</span>
+          <span class="pill">Repo structure per module</span>
+          <span class="pill">File templates</span>
+          <span class="pill">AI integration per module</span>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num" style="background:#444">04</div>
+      <div class="step-body">
+        <h3>Iterate until it's perfect</h3>
+        <p>Review with Claude, add edge cases, refine templates. The CLAUDE.md becomes the single source of truth — Claude Code follows it exactly for all 16 modules.</p>
+        <div class="step-pills">
+          <span class="pill">Review + refine in conversation</span>
+          <span class="pill">Test on Module 2 first</span>
+          <span class="pill">Lock the spec</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header">
+      <div class="code-dots"><span class="cd r"></span><span class="cd y"></span><span class="cd g"></span></div>
+      <span class="code-fname">CLAUDE.md — excerpt</span>
+    </div>
+    <div class="code-body">
+<span class="ch"># CLAUDE.md — GA Technical Course</span><br>
+<br>
+<span class="ck">## Language Rules</span><br>
+<span class="cs">ALL content must be written in American English.</span><br>
+<span class="cm">- Use: "color", "organize", "analyze", "normalize"</span><br>
+<br>
+<span class="ck">## Visual Design Standards</span><br>
+<span class="cm">### Layer 1 — Badges (top of every README.md)</span><br>
+<span class="cv">![Module](https://img.shields.io/badge/Module_N-Name-...)</span><br>
+<br>
+<span class="ck">## Repository Structure per Module</span><br>
+<span class="cs">[N]-[module-slug]/</span><br>
+<span class="cs">├── README.md          ← main module content</span><br>
+<span class="cs">├── instructor-guide.md</span><br>
+<span class="cs">└── Lab-[lab-name]/</span><br>
+<span class="cs">    ├── data/schema_and_seed.sql</span><br>
+<span class="cs">    ├── outputs/my_answers.md</span><br>
+<span class="cs">    └── solutions/lab_solution.sql</span><br>
+<br>
+<span class="ck">## AI Integration per Module</span><br>
+<span class="cm">### Module 9 — Data Pipelines</span><br>
+<span class="cs">DAG with 5 stages: extract → validate → transform → load → notify</span><br>
+<span class="cm">AI Reflection: "Ask an AI assistant to review a DAG..."</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════ SECTION 3 ═══════ -->
+<section id="sec-3">
+<div class="section-inner">
+  <span class="ga-rule"></span>
+  <div class="eyebrow">03 / The Workflow</div>
+  <h2>From Documents<br>to <span class="red">GitHub</span><br>in One Command</h2>
+  <p style="color:rgba(255,255,255,.5);max-width:580px;font-size:.9rem;margin-bottom:.25rem">This workflow is designed for <strong style="color:rgba(255,255,255,.8)">technical courses</strong> — programming, data engineering, DevOps — where content lives as code, SQL, and structured files and GitHub is the delivery platform.</p>
+
+  <div class="flow-diagram">
+    <div class="flow-node">
+      <div class="fn-label">Input</div>
+      <div class="fn-title">Course Documents</div>
+      <div class="fn-desc">Competency Map · Syllabus · Pacing Guide · Module 1 example</div>
+    </div>
+    <div class="flow-arr"><div class="al"></div><div class="ah">→</div><div class="al"></div></div>
+    <div class="flow-node hl">
+      <div class="fn-badge">Your IP</div>
+      <div class="fn-label">Blueprint</div>
+      <div class="fn-title">CLAUDE.md</div>
+      <div class="fn-desc">Language · design · structure · templates · AI integration</div>
+    </div>
+    <div class="flow-arr"><div class="al"></div><div class="ah">→</div><div class="al"></div></div>
+    <div class="flow-node">
+      <div class="fn-label">Output</div>
+      <div class="fn-title">GitHub Repos</div>
+      <div class="fn-desc">16 modules · 16 labs · All files created and pushed automatically</div>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card"><div class="sn red">16</div><div class="sl">Module READMEs with Mermaid diagrams, PNG assets, and AI Integration sections</div></div>
+    <div class="stat-card"><div class="sn yellow">16</div><div class="sl">Complete labs — schema SQL, seed data, starter file, answers template, solution</div></div>
+    <div class="stat-card"><div class="sn blue">16</div><div class="sl">Instructor guides with talking points, timing, and AI reflection prompts</div></div>
+    <div class="stat-card"><div class="sn green" style="font-size:1.4rem;line-height:1.2">Runs Labs.<br>Detects &amp;<br>Fixes Bugs.</div><div class="sl" style="margin-top:.5rem">Automated smoke tests validate every lab across all stacks before students see them</div></div>
+    <div class="stat-card"><div class="sn red" style="font-size:1.6rem;line-height:1.15">Full Labs<br>Audit</div><div class="sl" style="margin-top:.4rem">Less SME time consumed</div></div>
+    <div class="stat-card"><div class="sn yellow">5m 40s</div><div class="sl">Time for Claude Code to audit all 16 modules against the Competency Map</div></div>
+  </div>
+</div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════ SECTION 4 ═══════ -->
+<section id="sec-4">
+<div class="section-inner">
+  <span class="ga-rule"></span>
+  <div class="eyebrow">04 / Live Demo</div>
+  <h2>Watch It<br><span class="red">Build</span><br>Live</h2>
+  <p style="color:rgba(255,255,255,.5);max-width:540px;font-size:.9rem;margin-bottom:0">In the terminal right now — Claude Code creates a new module repository directly in GitHub. Files appear in real time.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot done">✓</div>
+      <div class="tl-body">
+        <div class="tl-title">CLAUDE.md is in the repo</div>
+        <div class="tl-desc">The blueprint is set. Claude Code reads it automatically before building anything — no extra configuration.</div>
+        <span class="tl-tag red">Done</span>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">▶</div>
+      <div class="tl-body">
+        <div class="tl-title">One prompt: "Build Module X"</div>
+        <div class="tl-desc">Claude Code reads CLAUDE.md, creates the folder structure, writes every file — README, instructor guide, lab, seed SQL, solution, answers template.</div>
+        <span class="tl-tag blue">Live now</span>
+      </div>
+    </div>
+    <div class="tl-item" style="padding-bottom:0">
+      <div class="tl-dot">👁</div>
+      <div class="tl-body">
+        <div class="tl-title">Files appear in GitHub</div>
+        <div class="tl-desc">Refresh the repository — the module is there. README with badges, Mermaid diagrams, AI Integration section, complete lab structure. All compliant with CLAUDE.md.</div>
+        <span class="tl-tag yellow">Watch</span>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="section-divider"></div>
+
+<div class="section-divider"></div>
+
+<div class="dl-bar">
+  <div class="dl-inner">
+    <div class="dl-text">
+      <div class="dl-label">Take it with you</div>
+      <div class="dl-title">Claude Code Cheat Sheet — Quick Reference</div>
+    </div>
+    <a href="cheat_sheet.pdf" download="GA_ClaudeCode_CheatSheet.pdf" class="dl-btn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z"/></svg>
+      Download Cheat Sheet
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo"><span>GA</span> · Claude Code</div>
+    <div class="footer-sub">
+      <strong>LED Rita Martins</strong> · General Assembly · Internal<br>
+      GA Technical Course — 16 modules · 32 hours · Built with Claude + Claude Code
+    </div>
+  </div>
+</footer>
+
+<script>
+const secs=['sec-0','sec-1','sec-2','sec-3','sec-4'];
+const dots=document.querySelectorAll('.nav-dot');
+function scrollTo(i){document.getElementById(secs[i]).scrollIntoView({behavior:'smooth'})}
+const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){const i=secs.indexOf(en.target.id);dots.forEach(d=>d.classList.remove('active'));if(i>=0)dots[i].classList.add('active')}})},{threshold:.4});
+secs.forEach(id=>{const el=document.getElementById(id);if(el)obs.observe(el)});
+</script>
+</body>
+</html>

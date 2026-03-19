@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code — Cheat Sheet · General Assembly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Nunito+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#222222;--offblk:#222222;--offwht:#F1F1F1;--white:#FFFFFF;
+  --red:#E41F26;--blue:#3442A3;--yellow:#F3AB02;--green:#036C32;
+  --muted:#888;--border:rgba(255,255,255,.1);
+  --display:'Barlow Condensed',sans-serif;--body:'Nunito Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--offblk);color:var(--offwht);font-family:var(--body);width:900px;margin:0 auto;padding:2.5rem 2rem;font-size:14px}
+
+/* halftone texture */
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.025) 1px,transparent 1px);background-size:4px 4px;pointer-events:none;z-index:0}
+
+/* ── HEADER ── */
+.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:3px solid var(--red);position:relative;z-index:1}
+.h-left{}
+.ga-rule{display:block;width:40px;height:3px;background:var(--red);margin-bottom:.6rem}
+.h-left h1{font-family:var(--display);font-size:1.9rem;font-weight:800;text-transform:uppercase;line-height:1}
+.h-left h1 span{color:var(--red)}
+.h-left p{font-size:.75rem;color:rgba(255,255,255,.4);margin-top:.4rem;font-family:var(--display);letter-spacing:.08em;text-transform:uppercase}
+.h-right{text-align:right}
+.h-author{font-family:var(--display);font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--red)}
+.h-org{font-family:var(--display);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);margin-top:.2rem}
+.h-badge{display:inline-flex;align-items:center;gap:.4rem;border:1px solid rgba(243,171,2,.3);padding:.2rem .6rem;font-family:var(--display);font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--yellow);margin-top:.5rem}
+
+/* ── GRID ── */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+.full{grid-column:1/-1}
+.gap{background:var(--offblk);margin-bottom:1px}
+
+/* ── CARDS ── */
+.card{background:var(--offblk);padding:1.25rem;position:relative;z-index:1}
+.card.dark{background:#161616}
+.card-top{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1rem}
+.card-num{width:28px;height:28px;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:.75rem;font-weight:800;color:var(--white);flex-shrink:0}
+.card-num.gray{background:#444}
+.card-title{font-family:var(--display);font-size:1rem;font-weight:800;text-transform:uppercase;letter-spacing:.02em;padding-top:.2rem}
+.card-sub{font-size:.7rem;color:rgba(255,255,255,.35);font-family:var(--display);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem;margin-left:2.1rem}
+
+/* ── GA DIVIDER ── */
+.mini-rule{width:24px;height:2px;background:var(--red);margin-bottom:.6rem}
+
+/* ── STEP ROWS ── */
+.step-row{display:flex;align-items:flex-start;gap:.6rem;margin-bottom:.65rem}
+.step-row:last-child{margin-bottom:0}
+.step-bullet{width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:.4rem}
+.step-text{font-size:.8rem;line-height:1.5;color:rgba(255,255,255,.7)}
+.step-text strong{color:var(--white);font-weight:700}
+.step-text code{font-family:'Courier New',monospace;font-size:.72rem;color:var(--yellow);background:rgba(243,171,2,.08);padding:.05rem .3rem}
+
+/* ── COMPARE ── */
+.mini-compare{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:.75rem}
+.mc-col{background:var(--offblk);padding:.85rem 1rem}
+.mc-col.dark{background:#161616}
+.mc-name{font-family:var(--display);font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
+.mc-name.red{color:var(--red)}
+.mc-name.blue{color:#6B7FD4}
+.mc-item{font-size:.75rem;color:rgba(255,255,255,.5);padding:.12rem 0;display:flex;gap:.4rem;align-items:flex-start;line-height:1.4}
+.mc-item::before{content:'→';color:rgba(255,255,255,.2);flex-shrink:0;font-size:.65rem;margin-top:.1rem}
+
+/* ── INSIGHT BOX ── */
+.insight{border-left:3px solid var(--red);padding:.7rem 1rem;margin-top:.75rem;background:rgba(228,31,38,.04)}
+.insight p{font-size:.78rem;line-height:1.55;color:rgba(255,255,255,.65)}
+.insight strong{color:var(--white)}
+
+/* ── REPO TREE ── */
+.tree{font-family:'Courier New',monospace;font-size:.7rem;line-height:1.85;background:#0D0D0D;padding:.85rem 1rem;margin-top:.75rem;color:rgba(255,255,255,.5)}
+.tree .dir{color:#6B7FD4}
+.tree .file{color:#2EAA5A}
+.tree .note{color:rgba(255,255,255,.25);font-size:.62rem}
+.tree .hl{color:var(--yellow);font-weight:700}
+
+/* ── FLOW ── */
+.flow{display:flex;align-items:center;gap:.4rem;margin-top:.85rem;flex-wrap:wrap}
+.fn{background:#161616;border:1px solid rgba(255,255,255,.1);padding:.45rem .7rem;font-size:.7rem;text-align:center;min-width:80px;flex-shrink:0}
+.fn .ft{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:.72rem;display:block;margin-bottom:.15rem}
+.fn .fs{color:rgba(255,255,255,.4);font-size:.62rem;line-height:1.3}
+.fn.hl{border-color:var(--yellow);background:rgba(243,171,2,.05)}
+.fn.hl .ft{color:var(--yellow)}
+.fa{color:rgba(255,255,255,.25);font-size:.75rem;flex-shrink:0}
+
+/* ── STATS ── */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:1rem}
+.stat{background:#161616;padding:.85rem .75rem;text-align:center}
+.stat .n{font-family:var(--display);font-size:2rem;font-weight:800;line-height:1}
+.stat .l{font-size:.65rem;color:rgba(255,255,255,.4);line-height:1.3;margin-top:.2rem}
+.n.red{color:var(--red)}.n.y{color:var(--yellow)}.n.b{color:#6B7FD4}.n.g{color:#2EAA5A}
+
+/* ── FOOTER ── */
+.footer{margin-top:1.5rem;padding-top:1rem;border-top:3px solid var(--red);display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}
+.fl{font-family:var(--display);font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+.fl strong{color:var(--red)}
+.fr{font-size:.62rem;color:rgba(255,255,255,.25);text-align:right}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="h-left">
+    <span class="ga-rule"></span>
+    <h1>Claude Code for<br><span>Course Development</span></h1>
+    <p>How to build a full GA course in GitHub using Claude + Claude Code</p>
+  </div>
+  <div class="h-right">
+    <div class="h-author">LED Rita Martins</div>
+    <div class="h-org">General Assembly · Internal</div>
+    <div class="h-badge">GA Technical Course · 16 Modules</div>
+  </div>
+</div>
+
+<!-- ROW 1 -->
+<div class="grid" style="margin-bottom:1px">
+
+  <!-- Claude vs Claude Code -->
+  <div class="card">
+    <div class="card-top">
+      <div class="card-num">01</div>
+      <div class="card-title">Claude vs Claude Code</div>
+    </div>
+    <div class="mini-compare">
+      <div class="mc-col dark">
+        <div class="mc-name red">Claude (claude.ai)</div>
+        <div class="mc-item">Thinks and designs with you</div>
+        <div class="mc-item">Reads your course documents</div>
+        <div class="mc-item">Builds the CLAUDE.md blueprint</div>
+        <div class="mc-item">Iterates in conversation</div>
+      </div>
+      <div class="mc-col">
+        <div class="mc-name blue">Claude Code (terminal)</div>
+        <div class="mc-item">Runs on your machine</div>
+        <div class="mc-item">Creates real files + folders</div>
+        <div class="mc-item">Pushes to GitHub directly</div>
+        <div class="mc-item">Follows CLAUDE.md exactly</div>
+      </div>
+    </div>
+    <div class="insight">
+      <p><strong>The connection:</strong> Claude designs the CLAUDE.md → Claude Code builds the course from it. You need both.</p>
+    </div>
+  </div>
+
+  <!-- Install -->
+  <div class="card dark">
+    <div class="card-top">
+      <div class="card-num">02</div>
+      <div class="card-title">Install Claude Code</div>
+    </div>
+    <div class="step-row"><span class="step-bullet"></span><span class="step-text">Requires <strong>Node.js 18+</strong> — install via nodejs.org or Homebrew</span></div>
+    <div class="step-row"><span class="step-bullet"></span><span class="step-text">Install: <code>npm install -g @anthropic-ai/claude-code</code></span></div>
+    <div class="step-row"><span class="step-bullet"></span><span class="step-text">Set API key: <code>export ANTHROPIC_API_KEY=sk-ant-...</code></span></div>
+    <div class="step-row"><span class="step-bullet"></span><span class="step-text">Launch in any folder: <code>claude</code></span></div>
+    <div class="step-row"><span class="step-bullet"></span><span class="step-text">GitHub push: add a Personal Access Token with repo scope</span></div>
+  </div>
+</div>
+
+<!-- ROW 2: CLAUDE.MD FULL WIDTH -->
+<div class="card full" style="margin-bottom:1px">
+  <div class="card-top">
+    <div class="card-num">03</div>
+    <div class="card-title">Build the CLAUDE.md — The Most Important Step</div>
+  </div>
+  <div class="card-sub">Do this in Claude (claude.ai) — not in Claude Code</div>
+
+  <div class="flow">
+    <div class="fn"><span class="ft">Module 1</span><span class="fs">Your example<br>README + lab</span></div>
+    <span class="fa">+</span>
+    <div class="fn"><span class="ft">Competency Map</span><span class="fs">.xlsx — LOs<br>+ lab descriptions</span></div>
+    <span class="fa">+</span>
+    <div class="fn"><span class="ft">Syllabus</span><span class="fs">.docx — course<br>structure</span></div>
+    <span class="fa">+</span>
+    <div class="fn"><span class="ft">Pacing Guide</span><span class="fs">.xlsx — timing<br>per module</span></div>
+    <span class="fa">→</span>
+    <div class="fn hl"><span class="ft">CLAUDE.md</span><span class="fs">The blueprint<br>Your IP</span></div>
+  </div>
+
+  <div class="grid-3" style="margin-top:1rem">
+    <div>
+      <div class="mini-rule"></div>
+      <div style="font-family:var(--display);font-size:.65rem;color:var(--red);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700">What CLAUDE.md contains</div>
+      <div class="step-row"><span class="step-bullet"></span><span class="step-text">Language rules — American English</span></div>
+      <div class="step-row"><span class="step-bullet"></span><span class="step-text">Color palette, badge system, Mermaid styles</span></div>
+      <div class="step-row"><span class="step-bullet"></span><span class="step-text">Exact repo structure for every module</span></div>
+    </div>
+    <div>
+      <div class="mini-rule" style="background:#6B7FD4"></div>
+      <div style="font-family:var(--display);font-size:.65rem;color:#6B7FD4;margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700">Templates inside</div>
+      <div class="step-row"><span class="step-bullet" style="background:#6B7FD4"></span><span class="step-text">Module README template</span></div>
+      <div class="step-row"><span class="step-bullet" style="background:#6B7FD4"></span><span class="step-text">Lab README template</span></div>
+      <div class="step-row"><span class="step-bullet" style="background:#6B7FD4"></span><span class="step-text">SQL schema + seed data template</span></div>
+    </div>
+    <div>
+      <div class="mini-rule" style="background:var(--yellow)"></div>
+      <div style="font-family:var(--display);font-size:.65rem;color:var(--yellow);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700">Module-level specifics</div>
+      <div class="step-row"><span class="step-bullet" style="background:var(--yellow)"></span><span class="step-text">AI Integration section per module</span></div>
+      <div class="step-row"><span class="step-bullet" style="background:var(--yellow)"></span><span class="step-text">AI Reflection prompt per module</span></div>
+      <div class="step-row"><span class="step-bullet" style="background:var(--yellow)"></span><span class="step-text">Tools per module (SQL → Spark)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ROW 3 -->
+<div class="grid" style="margin-bottom:1px">
+
+  <!-- Repo structure -->
+  <div class="card">
+    <div class="card-top">
+      <div class="card-num" style="background:#3442A3">04</div>
+      <div class="card-title">Repository Architecture</div>
+    </div>
+    <div class="card-sub">One GitHub repo per module</div>
+    <div class="tree">
+      <span class="hl">[N]-[module-slug]/</span><br>
+      ├── <span class="file">README.md</span> <span class="note">← badges, Mermaid, PNG, AI section</span><br>
+      ├── <span class="file">instructor-guide.md</span><br>
+      ├── <span class="dir">assets/</span> <span class="note">← matplotlib dark theme PNG</span><br>
+      └── <span class="dir">Lab-[lab-name]/</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">README.md</span> <span class="note">← lab brief + tasks</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="dir">data/</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;│&nbsp; ├── <span class="file">schema_and_seed.sql</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;│&nbsp; └── <span class="file">lab_starter.sql</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="dir">outputs/</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;│&nbsp; └── <span class="file">my_answers.md</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;└── <span class="dir">solutions/</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <span class="file">lab_solution.sql</span>
+    </div>
+  </div>
+
+  <!-- Local + GitHub -->
+  <div class="card dark">
+    <div class="card-top">
+      <div class="card-num" style="background:var(--green)">05</div>
+      <div class="card-title">Build Locally → Deploy to GitHub</div>
+    </div>
+    <div class="step-row"><span class="step-bullet" style="background:var(--green)"></span><span class="step-text">Create a folder for the course on your Mac — place CLAUDE.md inside</span></div>
+    <div class="step-row"><span class="step-bullet" style="background:var(--green)"></span><span class="step-text">Open Claude Code in that folder: <code>cd my-course && claude</code></span></div>
+    <div class="step-row"><span class="step-bullet" style="background:var(--green)"></span><span class="step-text">Claude Code reads CLAUDE.md automatically — no extra setup</span></div>
+    <div class="step-row"><span class="step-bullet" style="background:var(--green)"></span><span class="step-text">Prompt: <strong>"Build all modules following CLAUDE.md"</strong> — files appear locally</span></div>
+    <div style="height:1px;background:rgba(255,255,255,.08);margin:.75rem 0"></div>
+    <div style="font-family:var(--display);font-size:.62rem;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;font-weight:700">GitHub deployment (with token)</div>
+    <div class="step-row"><span class="step-bullet" style="background:#6B7FD4"></span><span class="step-text">Add GitHub token to Claude Code — repos push automatically</span></div>
+    <div class="step-row"><span class="step-bullet" style="background:#6B7FD4"></span><span class="step-text">Prompt: <strong>"Create repo for Module X and push"</strong> — done in seconds</span></div>
+  </div>
+</div>
+
+<!-- ROW 4: STATS FULL WIDTH -->
+<div class="card full" style="margin-bottom:0">
+  <div class="card-top">
+    <div class="card-num" style="background:var(--yellow);color:var(--black)">06</div>
+    <div class="card-title">What This Produced — A 16-Module GA Technical Course with Labs</div>
+  </div>
+  <div class="stat-row">
+    <div class="stat"><div class="n red">16</div><div class="l">Module READMEs with Mermaid + PNG + AI sections</div></div>
+    <div class="stat"><div class="n y">16</div><div class="l">Complete labs with SQL, seed data, solutions</div></div>
+    <div class="stat"><div class="n b" style="font-size:1.1rem;line-height:1.15;padding-top:.3rem">Full Labs<br>Audit</div><div class="l" style="margin-top:.3rem">Less SME time consumed</div></div>
+    <div class="stat"><div class="n g" style="font-size:1.1rem;line-height:1.15;padding-top:.3rem">Runs Labs.<br>Detects &amp;<br>Fixes Bugs.</div><div class="l" style="margin-top:.3rem">Automated smoke tests validate every lab before students see them</div></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="fl"><strong>LED Rita Martins</strong> · General Assembly · Internal Demo</div>
+  <div class="fr">Claude + Claude Code · Not for distribution outside this team</div>
+</div>
+
+</body>
+</html>
