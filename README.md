@@ -17,5 +17,5 @@ Demo materials for the internal session on using Claude + Claude Code to build G
 |------|-------------|
 | `index.html` | Demo presentation — live via GitHub Pages |
 | `cheat_sheet.html` | Quick reference (web) |
-| `cheat_sheet.pdf` | Quick reference (printable) |
+| `GA_ClaudeCode_CheatSheet.pdf` | Quick reference (printable) |
 
