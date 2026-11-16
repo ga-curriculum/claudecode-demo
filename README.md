@@ -7,7 +7,7 @@
 
 Demo materials for the internal session on using Claude + Claude Code to build GA technical courses in GitHub.
 
-🔗 **[View the presentation](https://pages.git.generalassemb.ly/Database-Management-with-AI-Integration/Claudecode_Demo/)**
+🔗 **[View the presentation](https://ga-curriculum.github.io/claudecode-demo/)**
 
 ---
 
